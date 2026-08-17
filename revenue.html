@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Revenue · VoltDrive Operator</title>
+  <link rel="stylesheet" href="css/core/variables.css"><link rel="stylesheet" href="css/core/reset.css"><link rel="stylesheet" href="css/core/typography.css"><link rel="stylesheet" href="css/components/buttons.css"><link rel="stylesheet" href="css/components/forms.css"><link rel="stylesheet" href="css/components/operator-ui.css"><link rel="stylesheet" href="css/layout/app-layout.css"><link rel="stylesheet" href="css/layout/sidebar.css"><link rel="stylesheet" href="css/layout/header.css"><link rel="stylesheet" href="css/pages/operator.css">
+</head>
+<body class="app-page" data-nav="revenue">
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar__brand"><strong>VoltDrive</strong><span>Operator Portal</span></div>
+    <nav class="sidebar__nav">
+      <div class="sidebar__group"><span class="sidebar__group-title">Overview</span><a class="nav-link" data-nav="dashboard" href="dashboard.html"><span class="nav-link__icon">⌂</span><span>Network Dashboard</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Network</span><a class="nav-link" data-nav="sites" href="sites.html"><span class="nav-link__icon">◇</span><span>Sites</span></a><a class="nav-link" data-nav="chargers" href="chargers.html"><span class="nav-link__icon">ϟ</span><span>Chargers</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Charging Operations</span><a class="nav-link" data-nav="sessions" href="sessions.html"><span class="nav-link__icon">◉</span><span>Charging Sessions</span></a><a class="nav-link" data-nav="reservations" href="reservations.html"><span class="nav-link__icon">▣</span><span>Reservations</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Service & Energy</span><a class="nav-link" data-nav="maintenance" href="maintenance.html"><span class="nav-link__icon">!</span><span>Maintenance Alerts</span><span class="nav-link__badge">4</span></a><a class="nav-link" data-nav="energy" href="energy.html"><span class="nav-link__icon">↯</span><span>Energy Status</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Business</span><a class="nav-link is-active" data-nav="revenue" href="revenue.html"><span class="nav-link__icon">¤</span><span>Revenue</span><span class="nav-link__badge" id="revenue-nav-badge">0</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Support & Safety</span><a class="nav-link" data-nav="support" href="support.html"><span class="nav-link__icon">?</span><span>Customer Support</span><span class="nav-link__badge">4</span></a><a class="nav-link" data-nav="emergency" href="emergency.html"><span class="nav-link__icon">⚠</span><span>Emergency Controls</span></a></div>
+    <div class="sidebar__group"><span class="sidebar__group-title">Administration</span><a class="nav-link" data-nav="settings" href="settings.html"><span class="nav-link__icon">⚙</span><span>Operator Settings</span></a></div>
+</nav>
+    <div class="sidebar__footer"><div class="sidebar-user"><span class="sidebar-user__avatar">AH</span><div><strong data-operator-name>Arman Hakobyan</strong><span data-operator-role>Network Operator</span></div></div></div>
+  </aside>
+  <div class="mobile-overlay"></div>
+  <main class="app-main">
+    <header class="topbar"><div class="topbar__left"><button class="icon-button menu-button" id="menu-button" aria-label="Open menu">☰</button><div class="topbar__title"><h1>Revenue</h1><p>Financial operations, transactions, refunds and roaming reconciliation.</p></div></div><div class="topbar__actions"><span class="live-chip">Financial operations live</span><button class="icon-button" id="refresh-button" title="Refresh">↻</button></div></header>
+    <div class="page-content">
+      <section class="revenue-hero"><div><span class="eyebrow">Business operations</span><h2>Revenue & Payment Operations</h2><p>Monitor network income, reconcile charging payments, handle refunds and review roaming partner settlements from one operational workspace.</p></div><div class="dashboard-actions"><button class="button button--secondary" id="revenue-export" type="button">Export CSV</button><button class="button button--primary" id="revenue-reconcile" type="button">Reconcile Payments</button></div></section>
+
+      <section class="operator-kpi-grid revenue-kpi-grid">
+        <article class="kpi-card"><span>Revenue Today</span><strong id="kpi-revenue-today">—</strong><small id="kpi-revenue-today-note">—</small></article>
+        <article class="kpi-card"><span>Energy Sales</span><strong id="kpi-revenue-energy">—</strong><small id="kpi-revenue-energy-note">—</small></article>
+        <article class="kpi-card"><span>Fees</span><strong id="kpi-revenue-fees">—</strong><small id="kpi-revenue-fees-note">—</small></article>
+        <article class="kpi-card kpi-card--danger"><span>Payment Attention</span><strong id="kpi-revenue-attention">—</strong><small id="kpi-revenue-attention-note">—</small></article>
+        <article class="kpi-card"><span>Refunds</span><strong id="kpi-revenue-refunds">—</strong><small id="kpi-revenue-refunds-note">—</small></article>
+        <article class="kpi-card"><span>Roaming Receivable</span><strong id="kpi-revenue-roaming">—</strong><small id="kpi-revenue-roaming-note">—</small></article>
+      </section>
+
+      <section class="revenue-layout">
+        <div class="revenue-main-column">
+          <section class="panel">
+            <div class="panel__header"><div><h2>Transaction Operations</h2><p>Charging, reservation, idle, parking and adjustment transactions across the network.</p></div><span class="panel-chip" id="revenue-result-count">0 transactions</span></div>
+            <div class="ui-tabs"><button class="ui-tab is-active" type="button" data-revenue-filter="all">All</button><button class="ui-tab" type="button" data-revenue-filter="captured">Captured</button><button class="ui-tab" type="button" data-revenue-filter="attention">Payment Attention</button><button class="ui-tab" type="button" data-revenue-filter="roaming">Roaming</button><button class="ui-tab" type="button" data-revenue-filter="refunds">Refunded</button></div>
+            <div class="ui-toolbar"><div class="ui-toolbar__group"><label class="ui-search">⌕<input id="revenue-search" type="search" placeholder="Search transaction, session, customer, charger"></label><select class="ui-select" id="revenue-site"><option value="all">All sites</option></select><select class="ui-select" id="revenue-type"><option value="all">All transaction types</option><option value="charging">Charging</option><option value="reservation">Reservation</option><option value="idle">Idle fee</option><option value="parking">Parking</option><option value="adjustment">Adjustment</option></select></div><div class="ui-toolbar__group"><select class="ui-select" id="revenue-sort"><option value="attention">Attention first</option><option value="recent">Most recent</option><option value="amount">Highest amount</option><option value="site">Site</option></select></div></div>
+            <div class="table-wrap"><table class="data-table revenue-table"><thead><tr><th>Transaction</th><th>Customer / Source</th><th>Site / Asset</th><th>Type</th><th>Gross</th><th>Fees / Tax</th><th>Net</th><th>Payment</th><th>Status</th></tr></thead><tbody id="revenue-table-body"></tbody></table></div>
+          </section>
+
+          <section class="panel"><div class="panel__header"><div><h2>Revenue by Site</h2><p>Today's energy sales and ancillary fees by charging location.</p></div><span class="panel-chip">Today</span></div><div class="panel__body" id="revenue-site-performance"></div></section>
+          <section class="panel"><div class="panel__header"><div><h2>7-Day Revenue Trend</h2><p>Energy sales, reservation, idle, parking and other fees.</p></div><span class="panel-chip" id="revenue-trend-total">—</span></div><div class="panel__body" id="revenue-trend"></div></section>
+        </div>
+
+        <div class="revenue-side-column">
+          <section class="panel"><div class="panel__header"><div><h2>Payment Attention</h2><p>Failed captures and settlements requiring operator action.</p></div><span class="panel-chip" id="payment-attention-count">0</span></div><div class="panel__body revenue-side-list" id="payment-attention-list"></div></section>
+          <section class="panel"><div class="panel__header"><div><h2>Refund Queue</h2><p>Customer refunds and operator adjustments.</p></div><span class="panel-chip" id="refund-count">0</span></div><div class="panel__body revenue-side-list" id="refund-list"></div></section>
+          <section class="panel"><div class="panel__header"><div><h2>Roaming Settlements</h2><p>Partner receivables and settlement reconciliation.</p></div><span class="panel-chip" id="roaming-count">0</span></div><div class="panel__body revenue-side-list" id="roaming-list"></div></section>
+          <section class="panel"><div class="panel__header"><div><h2>Tariffs in Use</h2><p>Current charging and fee rules generating revenue.</p></div><span class="panel-chip" id="tariff-count">0</span></div><div class="panel__body revenue-side-list" id="tariff-list"></div></section>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="ui-drawer-backdrop" id="revenue-drawer-backdrop" hidden></div>
+<aside class="ui-drawer revenue-details-drawer" id="revenue-drawer" aria-hidden="true">
+  <header class="ui-drawer__header"><div><span class="eyebrow" id="revenue-drawer-eyebrow">Financial transaction</span><h2 id="revenue-drawer-title">Transaction</h2><p id="revenue-drawer-subtitle">—</p></div><button class="ui-close" id="revenue-drawer-close" type="button" aria-label="Close">×</button></header>
+  <div class="ui-tabs" id="revenue-drawer-tabs"><button class="ui-tab is-active" type="button" data-revenue-tab="overview">Overview</button><button class="ui-tab" type="button" data-revenue-tab="fees">Fees & Tax</button><button class="ui-tab" type="button" data-revenue-tab="payment">Payment</button><button class="ui-tab" type="button" data-revenue-tab="related">Related</button><button class="ui-tab" type="button" data-revenue-tab="timeline">Timeline</button></div>
+  <div class="ui-drawer__body" id="revenue-drawer-body"></div><footer class="ui-drawer__footer" id="revenue-drawer-footer"></footer>
+</aside>
+
+<dialog class="ui-dialog" id="revenue-refund-dialog"><div class="ui-dialog__header"><div><h2>Issue Refund</h2><p id="revenue-refund-subtitle">Refund a captured customer transaction.</p></div><button class="ui-close" id="revenue-refund-close" type="button">×</button></div><div class="ui-dialog__body"><div class="form-grid"><label class="form-field"><span>Refund amount (AMD)</span><input id="revenue-refund-amount" type="number" min="1" step="10"></label><label class="form-field"><span>Reason</span><select id="revenue-refund-reason"><option>Customer service adjustment</option><option>Charging interruption</option><option>Duplicate charge</option><option>Reservation cancellation</option><option>Incorrect tariff</option><option>Other</option></select></label><label class="form-field"><span>Operator note</span><textarea id="revenue-refund-note" rows="3" placeholder="Reason and supporting context"></textarea></label></div><div class="ui-callout ui-callout--warning section-gap"><strong>Financial action</strong><span>The refund is recorded immediately in the prototype ledger and transaction timeline.</span></div></div><div class="ui-dialog__footer"><button class="button button--secondary" id="revenue-refund-cancel" type="button">Cancel</button><button class="button button--primary" id="revenue-refund-confirm" type="button">Issue Refund</button></div></dialog>
+
+<dialog class="ui-dialog" id="revenue-reconcile-dialog"><div class="ui-dialog__header"><div><h2>Reconcile Payments</h2><p>Process pending settlements that are safe to finalize.</p></div><button class="ui-close" id="revenue-reconcile-close" type="button">×</button></div><div class="ui-dialog__body"><div class="form-grid"><label class="form-field"><span>Scope</span><select id="revenue-reconcile-scope"><option value="pending">Pending only</option><option value="attention">Pending + retryable failed</option></select></label><label class="form-field"><span>Operator note</span><textarea id="revenue-reconcile-note" rows="3" placeholder="Batch reconciliation note"></textarea></label></div><div class="ui-callout section-gap"><strong>Prototype behavior</strong><span>Pending settlements are captured. Retryable failed payments move to captured; hard declines remain failed.</span></div></div><div class="ui-dialog__footer"><button class="button button--secondary" id="revenue-reconcile-cancel" type="button">Cancel</button><button class="button button--primary" id="revenue-reconcile-confirm" type="button">Run Reconciliation</button></div></dialog>
+
+<dialog class="ui-dialog" id="roaming-settlement-dialog"><div class="ui-dialog__header"><div><h2>Roaming Settlement</h2><p id="roaming-settlement-subtitle">Review partner reconciliation.</p></div><button class="ui-close" id="roaming-settlement-close" type="button">×</button></div><div class="ui-dialog__body" id="roaming-settlement-body"></div><div class="ui-dialog__footer"><button class="button button--secondary" id="roaming-settlement-cancel" type="button">Close</button><button class="button button--primary" id="roaming-settlement-confirm" type="button">Mark Reconciled</button></div></dialog>
+
+<div class="ui-toast" id="global-toast"></div><script type="module" src="js/pages/revenue.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VoltDrive Operator</title><script>
+(function(){var allowed={dashboard:'dashboard.html',sessions:'sessions.html',maintenance:'maintenance.html',support:'support.html',emergency:'emergency.html'};var page='dashboard';try{var raw=localStorage.getItem('voltdrive_operator_v1');if(raw){var data=JSON.parse(raw);var preferred=data&&data.operatorSettings&&data.operatorSettings.interface&&data.operatorSettings.interface.defaultPage;if(allowed[preferred])page=preferred;}}catch(e){}location.replace(allowed[page]||allowed.dashboard);})();
+</script></head><body></body></html>

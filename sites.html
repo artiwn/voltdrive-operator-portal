@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sites · VoltDrive Operator</title>
+<link rel="stylesheet" href="css/core/variables.css">
+<link rel="stylesheet" href="css/core/reset.css">
+<link rel="stylesheet" href="css/core/typography.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/forms.css">
+<link rel="stylesheet" href="css/components/operator-ui.css">
+<link rel="stylesheet" href="css/layout/app-layout.css">
+<link rel="stylesheet" href="css/layout/sidebar.css">
+<link rel="stylesheet" href="css/layout/header.css">
+<link rel="stylesheet" href="css/pages/operator.css">
+</head>
+<body class="app-page" data-nav="sites">
+<div class="app-shell">
+<aside class="sidebar">
+<div class="sidebar__brand"><strong>VoltDrive</strong><span>Operator Portal</span></div>
+<nav class="sidebar__nav">
+<div class="sidebar__group"><span class="sidebar__group-title">Overview</span><a class="nav-link" data-nav="dashboard" href="dashboard.html"><span class="nav-link__icon">⌂</span><span>Network Dashboard</span></a></div>
+<div class="sidebar__group"><span class="sidebar__group-title">Network</span><a class="nav-link is-active" data-nav="sites" href="sites.html"><span class="nav-link__icon">◇</span><span>Sites</span></a><a class="nav-link" data-nav="chargers" href="chargers.html"><span class="nav-link__icon">ϟ</span><span>Chargers</span></a></div>
+<div class="sidebar__group"><span class="sidebar__group-title">Charging Operations</span><a class="nav-link" data-nav="sessions" href="sessions.html"><span class="nav-link__icon">◉</span><span>Charging Sessions</span></a><a class="nav-link" data-nav="reservations" href="reservations.html"><span class="nav-link__icon">▣</span><span>Reservations</span></a></div>
+<div class="sidebar__group"><span class="sidebar__group-title">Service & Energy</span><a class="nav-link" data-nav="maintenance" href="maintenance.html"><span class="nav-link__icon">!</span><span>Maintenance Alerts</span><span class="nav-link__badge">4</span></a><a class="nav-link" data-nav="energy" href="energy.html"><span class="nav-link__icon">↯</span><span>Energy Status</span></a></div>
+<div class="sidebar__group"><span class="sidebar__group-title">Business</span><a class="nav-link" data-nav="revenue" href="revenue.html"><span class="nav-link__icon">¤</span><span>Revenue</span></a></div>
+<div class="sidebar__group"><span class="sidebar__group-title">Support & Safety</span><a class="nav-link" data-nav="support" href="support.html"><span class="nav-link__icon">?</span><span>Customer Support</span><span class="nav-link__badge">4</span></a><a class="nav-link" data-nav="emergency" href="emergency.html"><span class="nav-link__icon">⚠</span><span>Emergency Controls</span></a></div>
+<div class="sidebar__group"><span class="sidebar__group-title">Administration</span><a class="nav-link" data-nav="settings" href="settings.html"><span class="nav-link__icon">⚙</span><span>Operator Settings</span></a></div>
+</nav>
+<div class="sidebar__footer"><div class="sidebar-user"><span class="sidebar-user__avatar">AH</span><div><strong data-operator-name>Arman Hakobyan</strong><span data-operator-role>Network Operator</span></div></div></div>
+</aside>
+<div class="mobile-overlay"></div>
+<main class="app-main">
+<header class="topbar"><div class="topbar__left"><button class="icon-button menu-button" id="menu-button" aria-label="Open menu">☰</button><div class="topbar__title"><h1>Sites</h1><p>Network locations, parking, access, capacity and operational controls.</p></div></div><div class="topbar__actions"><span class="live-chip">Network operations live</span><button class="icon-button" id="refresh-button" title="Refresh">↻</button></div></header>
+<div class="page-content">
+<section class="sites-hero"><div><span class="eyebrow">Network operations</span><h2>Charging Sites</h2><p>Monitor site readiness, access, electrical headroom, parking occupancy and local incidents.</p></div><div class="dashboard-actions"><a class="button button--secondary" href="chargers.html">Charger Inventory</a><a class="button button--secondary" href="energy.html">Energy Center</a></div></section>
+
+<section class="operator-kpi-grid sites-kpi-grid">
+<article class="kpi-card"><span>Sites Operational</span><strong id="kpi-sites">—</strong><small id="kpi-sites-note">—</small></article>
+<article class="kpi-card"><span>Chargers Available</span><strong id="kpi-chargers">—</strong><small id="kpi-chargers-note">—</small></article>
+<article class="kpi-card"><span>Parking Available</span><strong id="kpi-parking">—</strong><small id="kpi-parking-note">—</small></article>
+<article class="kpi-card"><span>Capacity Headroom</span><strong id="kpi-headroom">—</strong><small id="kpi-headroom-note">—</small></article>
+<article class="kpi-card kpi-card--danger"><span>Operational Attention</span><strong id="kpi-incidents">—</strong><small id="kpi-incidents-note">—</small></article>
+</section>
+
+<section class="panel">
+<div class="ui-toolbar"><div class="ui-toolbar__group"><label class="ui-search"><span>⌕</span><input id="site-search" type="search" placeholder="Search site, address or contact"></label><select class="ui-select" id="site-status"><option value="all">All statuses</option><option value="online">Online</option><option value="attention">Attention</option><option value="warning">Warning</option><option value="restricted">Restricted</option><option value="closed">Closed</option></select><select class="ui-select" id="site-access"><option value="all">All access modes</option><option value="public">Public access</option><option value="barrier">Barrier controlled</option><option value="airport">Airport</option><option value="mall">Mall parking</option></select></div><div class="ui-toolbar__group"><select class="ui-select" id="site-sort"><option value="attention">Sort: Attention first</option><option value="reliability">Reliability</option><option value="load">Load</option><option value="parking">Parking</option><option value="name">Name</option></select></div></div>
+</section>
+
+<section class="sites-layout section-gap">
+<div class="sites-main-column">
+<section class="site-inventory-grid" id="site-inventory"></section>
+</div>
+<aside class="sites-side-column">
+<section class="panel"><div class="panel__header"><div><h2>Operational Attention</h2><p>Site-level incidents requiring operator awareness.</p></div><a class="action-button" href="maintenance.html">Maintenance</a></div><div class="panel__body"><div class="site-attention-list" id="site-attention-list"></div></div></section>
+<section class="panel"><div class="panel__header"><div><h2>Parking Pressure</h2><p>Locations approaching parking saturation.</p></div></div><div class="panel__body"><div id="parking-pressure"></div></div></section>
+</aside>
+</section>
+</div>
+</main>
+</div>
+
+<div class="ui-drawer-backdrop" id="site-drawer-backdrop"></div>
+<aside class="ui-drawer site-details-drawer" id="site-drawer">
+<header class="ui-drawer__header"><div><span class="eyebrow" id="site-drawer-eyebrow">Site</span><h2 id="site-drawer-title">Site details</h2><p id="site-drawer-subtitle"></p></div><button class="ui-close" id="site-drawer-close" type="button" aria-label="Close">×</button></header>
+<div class="site-drawer-tabs ui-tabs" id="site-tabs"><button class="ui-tab is-active" data-site-tab="overview">Overview</button><button class="ui-tab" data-site-tab="infrastructure">Infrastructure</button><button class="ui-tab" data-site-tab="parking">Parking</button><button class="ui-tab" data-site-tab="incidents">Incidents</button><button class="ui-tab" data-site-tab="controls">Controls</button></div>
+<div class="ui-drawer__body" id="site-drawer-body"></div>
+<footer class="ui-drawer__footer" id="site-drawer-footer"></footer>
+</aside>
+
+<dialog class="ui-dialog" id="site-status-dialog">
+<header class="ui-dialog__header"><div><h2>Change site operating state</h2><p>Controls customer access without changing hardware fault state.</p></div><button class="ui-close" id="site-status-close" type="button" aria-label="Close">×</button></header>
+<div class="ui-dialog__body"><div class="form-grid"><label class="form-field"><span>Operating state</span><select id="site-status-value"><option value="online">Online</option><option value="restricted">Restricted</option><option value="closed">Closed</option></select></label><label class="form-field form-field--full"><span>Operator note</span><textarea id="site-status-note" placeholder="Reason for this operational state"></textarea></label></div></div>
+<footer class="ui-dialog__footer"><button class="button button--secondary" id="site-status-cancel">Cancel</button><button class="button button--primary" id="site-status-confirm">Apply State</button></footer>
+</dialog>
+
+<dialog class="ui-dialog" id="site-limit-dialog">
+<header class="ui-dialog__header"><div><h2>Set EV capacity limit</h2><p>Temporary operator cap for charging demand at this site.</p></div><button class="ui-close" id="site-limit-close" type="button" aria-label="Close">×</button></header>
+<div class="ui-dialog__body"><div class="form-grid"><label class="form-field"><span>EV operational limit (kW)</span><input id="site-limit-value" type="number" min="0" step="10"></label><label class="form-field form-field--full"><span>Operator note</span><textarea id="site-limit-note" placeholder="Reason for temporary power limit"></textarea></label></div></div>
+<footer class="ui-dialog__footer"><button class="button button--secondary" id="site-limit-cancel">Cancel</button><button class="button button--primary" id="site-limit-confirm">Save Limit</button></footer>
+</dialog>
+
+<dialog class="ui-dialog" id="site-profile-dialog">
+<header class="ui-dialog__header"><div><h2>Edit operational profile</h2><p>Operator-facing hours, access and local contact information.</p></div><button class="ui-close" id="site-profile-close" type="button" aria-label="Close">×</button></header>
+<div class="ui-dialog__body"><div class="form-grid"><label class="form-field"><span>Operating hours</span><input id="site-profile-hours"></label><label class="form-field"><span>Access mode</span><input id="site-profile-access"></label><label class="form-field"><span>Local contact</span><input id="site-profile-contact"></label><label class="form-field"><span>Phone</span><input id="site-profile-phone"></label><label class="form-field"><span>Height limit (m)</span><input id="site-profile-height" type="number" step="0.1" min="0"></label><label class="form-field form-field--full"><span>Access instructions</span><textarea id="site-profile-instructions"></textarea></label></div></div>
+<footer class="ui-dialog__footer"><button class="button button--secondary" id="site-profile-cancel">Cancel</button><button class="button button--primary" id="site-profile-confirm">Save Profile</button></footer>
+</dialog>
+
+<dialog class="ui-dialog" id="bay-dialog">
+<header class="ui-dialog__header"><div><h2 id="bay-dialog-title">Parking bay</h2><p id="bay-dialog-subtitle"></p></div><button class="ui-close" id="bay-dialog-close" type="button" aria-label="Close">×</button></header>
+<div class="ui-dialog__body"><div class="form-grid"><label class="form-field"><span>Bay state</span><select id="bay-status-value"><option value="available">Available</option><option value="reserved">Reserved</option><option value="occupied">Occupied</option><option value="blocked">Blocked</option></select></label><label class="form-field form-field--full"><span>Operator note</span><textarea id="bay-note" placeholder="Optional parking operation note"></textarea></label></div></div>
+<footer class="ui-dialog__footer"><button class="button button--secondary" id="bay-dialog-cancel">Cancel</button><button class="button button--primary" id="bay-dialog-confirm">Update Bay</button></footer>
+</dialog>
+
+<div class="ui-toast" id="global-toast"></div>
+<script type="module" src="js/pages/sites.js"></script>
+</body>
+</html>

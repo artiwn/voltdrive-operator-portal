@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Charging Sessions · VoltDrive Operator</title>
+  <link rel="stylesheet" href="css/core/variables.css">
+  <link rel="stylesheet" href="css/core/reset.css">
+  <link rel="stylesheet" href="css/core/typography.css">
+  <link rel="stylesheet" href="css/components/buttons.css">
+  <link rel="stylesheet" href="css/components/forms.css">
+  <link rel="stylesheet" href="css/components/operator-ui.css">
+  <link rel="stylesheet" href="css/layout/app-layout.css">
+  <link rel="stylesheet" href="css/layout/sidebar.css">
+  <link rel="stylesheet" href="css/layout/header.css">
+  <link rel="stylesheet" href="css/pages/operator.css">
+</head>
+<body class="app-page" data-nav="sessions">
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar__brand"><strong>VoltDrive</strong><span>Operator Portal</span></div>
+    <nav class="sidebar__nav">
+      <div class="sidebar__group"><span class="sidebar__group-title">Overview</span><a class="nav-link" data-nav="dashboard" href="dashboard.html"><span class="nav-link__icon">⌂</span><span>Network Dashboard</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Network</span><a class="nav-link" data-nav="sites" href="sites.html"><span class="nav-link__icon">◇</span><span>Sites</span></a><a class="nav-link" data-nav="chargers" href="chargers.html"><span class="nav-link__icon">ϟ</span><span>Chargers</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Charging Operations</span><a class="nav-link is-active" data-nav="sessions" href="sessions.html"><span class="nav-link__icon">◉</span><span>Charging Sessions</span></a><a class="nav-link" data-nav="reservations" href="reservations.html"><span class="nav-link__icon">▣</span><span>Reservations</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Service & Energy</span><a class="nav-link" data-nav="maintenance" href="maintenance.html"><span class="nav-link__icon">!</span><span>Maintenance Alerts</span><span class="nav-link__badge">4</span></a><a class="nav-link" data-nav="energy" href="energy.html"><span class="nav-link__icon">↯</span><span>Energy Status</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Business</span><a class="nav-link" data-nav="revenue" href="revenue.html"><span class="nav-link__icon">¤</span><span>Revenue</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Support & Safety</span><a class="nav-link" data-nav="support" href="support.html"><span class="nav-link__icon">?</span><span>Customer Support</span><span class="nav-link__badge">4</span></a><a class="nav-link" data-nav="emergency" href="emergency.html"><span class="nav-link__icon">⚠</span><span>Emergency Controls</span></a></div>
+    <div class="sidebar__group"><span class="sidebar__group-title">Administration</span><a class="nav-link" data-nav="settings" href="settings.html"><span class="nav-link__icon">⚙</span><span>Operator Settings</span></a></div>
+</nav>
+    <div class="sidebar__footer"><div class="sidebar-user"><span class="sidebar-user__avatar">AH</span><div><strong data-operator-name>Arman Hakobyan</strong><span data-operator-role>Network Operator</span></div></div></div>
+  </aside>
+  <div class="mobile-overlay"></div>
+  <main class="app-main">
+    <header class="topbar"><div class="topbar__left"><button class="icon-button menu-button" id="menu-button" aria-label="Open menu">☰</button><div class="topbar__title"><h1>Charging Sessions</h1><p>Live network sessions, authorization, payments and safe operator intervention.</p></div></div><div class="topbar__actions"><span class="live-chip">Session operations live</span><button class="icon-button" id="refresh-button" title="Refresh">↻</button></div></header>
+    <div class="page-content">
+      <section class="sessions-hero"><div><span class="eyebrow">Charging operations</span><h2>Network Session Operations</h2><p>Monitor every active and historical charge, inspect charging telemetry, authorization and payment context, and intervene safely when a session fails or must be stopped.</p></div><div class="metric-inline"><span class="panel-chip" id="session-network-chip">0 sessions</span><span class="panel-chip" id="session-live-chip">0 active</span></div></section>
+
+      <section class="operator-kpi-grid sessions-kpi-grid">
+        <article class="kpi-card"><span>Active Sessions</span><strong id="kpi-active-sessions">—</strong><small id="kpi-active-power">—</small></article>
+        <article class="kpi-card"><span>Live Energy</span><strong id="kpi-live-energy">—</strong><small id="kpi-live-cost">—</small></article>
+        <article class="kpi-card"><span>Completed</span><strong id="kpi-completed">—</strong><small id="kpi-completed-energy">—</small></article>
+        <article class="kpi-card kpi-card--danger"><span>Failed / Interrupted</span><strong id="kpi-problems">—</strong><small id="kpi-problems-note">—</small></article>
+        <article class="kpi-card"><span>Payment Attention</span><strong id="kpi-payment-attention">—</strong><small id="kpi-payment-note">—</small></article>
+        <article class="kpi-card"><span>Average Power</span><strong id="kpi-average-power">—</strong><small id="kpi-average-power-note">—</small></article>
+      </section>
+
+      <section class="sessions-layout">
+        <div class="sessions-main-column">
+          <section class="panel">
+            <div class="panel__header"><div><h2>Session Monitor</h2><p>Charging, authorization, payment and operational state across the network.</p></div><span class="panel-chip" id="session-result-count">0 sessions</span></div>
+            <div class="ui-tabs session-filter-tabs" id="session-filter-tabs">
+              <button class="ui-tab is-active" type="button" data-session-filter="all">All</button>
+              <button class="ui-tab" type="button" data-session-filter="active">Active</button>
+              <button class="ui-tab" type="button" data-session-filter="completed">Completed</button>
+              <button class="ui-tab" type="button" data-session-filter="problem">Failed / Interrupted</button>
+            </div>
+            <div class="ui-toolbar"><div class="ui-toolbar__group"><label class="ui-search">⌕<input id="session-search" type="search" placeholder="Search session, driver, vehicle or charger"></label><select class="ui-select" id="session-site"><option value="all">All sites</option></select><select class="ui-select" id="session-payment"><option value="all">All payments</option><option value="preauthorized">Preauthorized</option><option value="paid">Paid</option><option value="pending">Pending</option><option value="cancelled">Cancelled</option><option value="failed">Failed</option></select></div><div class="ui-toolbar__group"><select class="ui-select" id="session-sort"><option value="attention">Attention first</option><option value="recent">Most recent</option><option value="power">Power</option><option value="energy">Energy</option><option value="cost">Cost</option><option value="soc">SOC</option></select></div></div>
+            <div class="table-wrap"><table class="data-table session-table"><thead><tr><th>Session / Customer</th><th>Site</th><th>Charger</th><th>SOC</th><th>Power</th><th>Energy</th><th>Cost</th><th>Payment</th><th>Status</th></tr></thead><tbody id="session-table-body"></tbody></table></div>
+          </section>
+        </div>
+        <div class="sessions-side-column">
+          <section class="panel"><div class="panel__header"><div><h2>Intervention Queue</h2><p>Sessions that may require operator action.</p></div><span class="panel-chip" id="intervention-count">0</span></div><div class="panel__body session-side-list" id="intervention-list"></div></section>
+          <section class="panel"><div class="panel__header"><div><h2>Payment Attention</h2><p>Pending or non-finalized session payment state.</p></div><a class="panel-chip" href="revenue.html">Revenue</a></div><div class="panel__body session-side-list" id="payment-attention-list"></div></section>
+          <section class="panel"><div class="panel__header"><div><h2>Recent Session Events</h2><p>Latest charging, payment and fault events.</p></div><span class="panel-chip" id="event-count">0</span></div><div class="panel__body session-event-mini-list" id="recent-session-events"></div></section>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="ui-drawer-backdrop" id="session-drawer-backdrop" hidden></div>
+<aside class="ui-drawer session-details-drawer" id="session-drawer" aria-hidden="true">
+  <header class="ui-drawer__header"><div><span class="eyebrow">Charging session</span><h2 id="session-drawer-title">Session</h2><p id="session-drawer-subtitle">—</p></div><button class="ui-close" id="session-drawer-close" type="button" aria-label="Close">×</button></header>
+  <div class="ui-tabs" id="session-drawer-tabs"><button class="ui-tab is-active" type="button" data-session-tab="overview">Overview</button><button class="ui-tab" type="button" data-session-tab="charging">Charging</button><button class="ui-tab" type="button" data-session-tab="payment">Authorization & Payment</button><button class="ui-tab" type="button" data-session-tab="events">Events</button><button class="ui-tab" type="button" data-session-tab="diagnostics">Diagnostics</button></div>
+  <div class="ui-drawer__body" id="session-drawer-body"></div>
+  <footer class="ui-drawer__footer" id="session-drawer-footer"></footer>
+</aside>
+
+<dialog class="ui-dialog" id="session-stop-dialog">
+  <div class="ui-dialog__header"><div><h2>Stop Charging Session</h2><p id="session-stop-subtitle">Operator safety/customer-request stop.</p></div><button class="ui-close" id="session-stop-close" type="button">×</button></div>
+  <div class="ui-dialog__body"><div class="ui-callout ui-callout--warning"><strong>Safety-sensitive command</strong><span>Stopping a live session finalizes delivered energy, unlocks the connector and starts payment settlement.</span></div><label class="form-field"><span>Stop reason</span><select class="ui-select" id="session-stop-reason"><option>Customer request</option><option>Safety intervention</option><option>Charger fault</option><option>Site emergency</option><option>Operator troubleshooting</option><option>Other</option></select></label><label class="form-field"><span>Operator note</span><textarea id="session-stop-note" rows="3" placeholder="Required operational context"></textarea></label></div>
+  <div class="ui-dialog__footer"><button class="button button--secondary" id="session-stop-cancel" type="button">Cancel</button><button class="button button--danger" id="session-stop-confirm" type="button">Stop Session</button></div>
+</dialog>
+
+<dialog class="ui-dialog" id="session-recovery-dialog">
+  <div class="ui-dialog__header"><div><h2>Session Recovery</h2><p id="session-recovery-subtitle">Recovery action for failed/interrupted session.</p></div><button class="ui-close" id="session-recovery-close" type="button">×</button></div>
+  <div class="ui-dialog__body"><label class="form-field"><span>Recovery action</span><select class="ui-select" id="session-recovery-action"><option value="reset-connector">Reset connector</option><option value="restart-charger">Restart charger</option><option value="release-cable">Release cable</option><option value="refresh-authorization">Refresh authorization</option></select></label><label class="form-field"><span>Operator note</span><textarea id="session-recovery-note" rows="3" placeholder="Reason / observed condition"></textarea></label><div class="ui-callout ui-callout--warning"><strong>Recovery safety rule</strong><span>Commands are blocked when they conflict with another active session or unresolved charger safety condition.</span></div></div>
+  <div class="ui-dialog__footer"><button class="button button--secondary" id="session-recovery-cancel" type="button">Cancel</button><button class="button button--primary" id="session-recovery-confirm" type="button">Run Recovery</button></div>
+</dialog>
+
+<dialog class="ui-dialog" id="session-alert-dialog">
+  <div class="ui-dialog__header"><div><h2>Create Maintenance Alert</h2><p id="session-alert-subtitle">Create an operational maintenance alert from this session.</p></div><button class="ui-close" id="session-alert-close" type="button">×</button></div>
+  <div class="ui-dialog__body"><label class="form-field"><span>Severity</span><select class="ui-select" id="session-alert-severity"><option value="critical">Critical</option><option value="high" selected>High</option><option value="normal">Normal</option></select></label><label class="form-field"><span>Issue</span><textarea id="session-alert-note" rows="4" placeholder="Describe the failure and required technical review"></textarea></label></div>
+  <div class="ui-dialog__footer"><button class="button button--secondary" id="session-alert-cancel" type="button">Cancel</button><button class="button button--primary" id="session-alert-confirm" type="button">Create Alert</button></div>
+</dialog>
+
+<div class="ui-toast" id="global-toast"></div>
+<script type="module" src="js/pages/sessions.js"></script>
+</body>
+</html>

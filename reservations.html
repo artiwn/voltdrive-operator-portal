@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reservations · VoltDrive Operator</title>
+  <link rel="stylesheet" href="css/core/variables.css"><link rel="stylesheet" href="css/core/reset.css"><link rel="stylesheet" href="css/core/typography.css"><link rel="stylesheet" href="css/components/buttons.css"><link rel="stylesheet" href="css/components/forms.css"><link rel="stylesheet" href="css/components/operator-ui.css"><link rel="stylesheet" href="css/layout/app-layout.css"><link rel="stylesheet" href="css/layout/sidebar.css"><link rel="stylesheet" href="css/layout/header.css"><link rel="stylesheet" href="css/pages/operator.css">
+</head>
+<body class="app-page" data-nav="reservations">
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar__brand"><strong>VoltDrive</strong><span>Operator Portal</span></div>
+    <nav class="sidebar__nav">
+      <div class="sidebar__group"><span class="sidebar__group-title">Overview</span><a class="nav-link" data-nav="dashboard" href="dashboard.html"><span class="nav-link__icon">⌂</span><span>Network Dashboard</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Network</span><a class="nav-link" data-nav="sites" href="sites.html"><span class="nav-link__icon">◇</span><span>Sites</span></a><a class="nav-link" data-nav="chargers" href="chargers.html"><span class="nav-link__icon">ϟ</span><span>Chargers</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Charging Operations</span><a class="nav-link" data-nav="sessions" href="sessions.html"><span class="nav-link__icon">◉</span><span>Charging Sessions</span></a><a class="nav-link is-active" data-nav="reservations" href="reservations.html"><span class="nav-link__icon">▣</span><span>Reservations</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Service & Energy</span><a class="nav-link" data-nav="maintenance" href="maintenance.html"><span class="nav-link__icon">!</span><span>Maintenance Alerts</span><span class="nav-link__badge">4</span></a><a class="nav-link" data-nav="energy" href="energy.html"><span class="nav-link__icon">↯</span><span>Energy Status</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Business</span><a class="nav-link" data-nav="revenue" href="revenue.html"><span class="nav-link__icon">¤</span><span>Revenue</span></a></div>
+      <div class="sidebar__group"><span class="sidebar__group-title">Support & Safety</span><a class="nav-link" data-nav="support" href="support.html"><span class="nav-link__icon">?</span><span>Customer Support</span><span class="nav-link__badge">4</span></a><a class="nav-link" data-nav="emergency" href="emergency.html"><span class="nav-link__icon">⚠</span><span>Emergency Controls</span></a></div>
+    <div class="sidebar__group"><span class="sidebar__group-title">Administration</span><a class="nav-link" data-nav="settings" href="settings.html"><span class="nav-link__icon">⚙</span><span>Operator Settings</span></a></div>
+</nav>
+    <div class="sidebar__footer"><div class="sidebar-user"><span class="sidebar-user__avatar">AH</span><div><strong data-operator-name>Arman Hakobyan</strong><span data-operator-role>Network Operator</span></div></div></div>
+  </aside>
+  <div class="mobile-overlay"></div>
+  <main class="app-main">
+    <header class="topbar"><div class="topbar__left"><button class="icon-button menu-button" id="menu-button" aria-label="Open menu">☰</button><div class="topbar__title"><h1>Reservations</h1><p>Network reservations, waiting lists, assignments, grace periods and operator overrides.</p></div></div><div class="topbar__actions"><span class="live-chip">Reservation operations live</span><button class="icon-button" id="refresh-button" title="Refresh">↻</button></div></header>
+    <div class="page-content">
+      <section class="reservations-hero"><div><span class="eyebrow">Charging operations</span><h2>Reservation Control Center</h2><p>Manage location, charger and parking reservations across the network. Resolve assignment conflicts, promote waiting customers and handle arrival, grace period and no-show exceptions.</p></div><button class="button button--primary" id="new-reservation" type="button">+ Operator Reservation</button></section>
+
+      <section class="operator-kpi-grid reservations-kpi-grid">
+        <article class="kpi-card"><span>Upcoming</span><strong id="kpi-res-upcoming">—</strong><small id="kpi-res-upcoming-note">—</small></article>
+        <article class="kpi-card"><span>Active / Arrived</span><strong id="kpi-res-active">—</strong><small id="kpi-res-active-note">—</small></article>
+        <article class="kpi-card"><span>Waiting List</span><strong id="kpi-res-waiting">—</strong><small id="kpi-res-waiting-note">—</small></article>
+        <article class="kpi-card kpi-card--danger"><span>Conflicts</span><strong id="kpi-res-conflicts">—</strong><small id="kpi-res-conflicts-note">—</small></article>
+        <article class="kpi-card"><span>No-show</span><strong id="kpi-res-noshow">—</strong><small id="kpi-res-noshow-note">—</small></article>
+        <article class="kpi-card"><span>Assigned Assets</span><strong id="kpi-res-assigned">—</strong><small id="kpi-res-assigned-note">—</small></article>
+      </section>
+
+      <section class="reservations-layout">
+        <div class="reservations-main-column">
+          <section class="panel">
+            <div class="panel__header"><div><h2>Reservation Queue</h2><p>Customer bookings, assignment state and operational exceptions.</p></div><span class="panel-chip" id="reservation-result-count">0 reservations</span></div>
+            <div class="ui-tabs" id="reservation-filter-tabs"><button class="ui-tab is-active" type="button" data-res-filter="all">All</button><button class="ui-tab" type="button" data-res-filter="confirmed">Confirmed</button><button class="ui-tab" type="button" data-res-filter="active">Active</button><button class="ui-tab" type="button" data-res-filter="waiting">Waiting</button><button class="ui-tab" type="button" data-res-filter="completed">Completed</button><button class="ui-tab" type="button" data-res-filter="exception">Cancelled / No-show</button></div>
+            <div class="ui-toolbar"><div class="ui-toolbar__group"><label class="ui-search">⌕<input id="reservation-search" type="search" placeholder="Search reservation, customer, vehicle or charger"></label><select class="ui-select" id="reservation-site"><option value="all">All sites</option></select><select class="ui-select" id="reservation-assignment"><option value="all">All assignment modes</option><option value="specific">Specific asset</option><option value="auto">Auto assign</option><option value="waiting">Waiting list</option></select></div><div class="ui-toolbar__group"><select class="ui-select" id="reservation-sort"><option value="attention">Attention first</option><option value="arrival">Arrival time</option><option value="recent">Recently created</option><option value="site">Site</option></select></div></div>
+            <div class="table-wrap"><table class="data-table reservation-table"><thead><tr><th>Reservation / Customer</th><th>Site</th><th>Arrival</th><th>Assignment</th><th>Target</th><th>Fee / Est.</th><th>Arrival State</th><th>Status</th></tr></thead><tbody id="reservation-table-body"></tbody></table></div>
+          </section>
+        </div>
+        <div class="reservations-side-column">
+          <section class="panel"><div class="panel__header"><div><h2>Waiting List</h2><p>Customers waiting for a compatible assignment.</p></div><span class="panel-chip" id="waiting-count">0</span></div><div class="panel__body reservation-side-list" id="waiting-list"></div></section>
+          <section class="panel"><div class="panel__header"><div><h2>Assignment Conflicts</h2><p>Overlapping charger or parking allocations.</p></div><span class="panel-chip" id="conflict-count">0</span></div><div class="panel__body reservation-side-list" id="conflict-list"></div></section>
+          <section class="panel"><div class="panel__header"><div><h2>Arrival Attention</h2><p>Grace-period, no-show and arrival exceptions.</p></div><span class="panel-chip" id="arrival-attention-count">0</span></div><div class="panel__body reservation-side-list" id="arrival-attention-list"></div></section>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="ui-drawer-backdrop" id="reservation-drawer-backdrop" hidden></div>
+<aside class="ui-drawer reservation-details-drawer" id="reservation-drawer" aria-hidden="true">
+  <header class="ui-drawer__header"><div><span class="eyebrow">Reservation</span><h2 id="reservation-drawer-title">Reservation</h2><p id="reservation-drawer-subtitle">—</p></div><button class="ui-close" id="reservation-drawer-close" type="button" aria-label="Close">×</button></header>
+  <div class="ui-tabs" id="reservation-drawer-tabs"><button class="ui-tab is-active" type="button" data-res-tab="overview">Overview</button><button class="ui-tab" type="button" data-res-tab="assignment">Assignment</button><button class="ui-tab" type="button" data-res-tab="rules">Rules & Payment</button><button class="ui-tab" type="button" data-res-tab="timeline">Timeline</button></div>
+  <div class="ui-drawer__body" id="reservation-drawer-body"></div><footer class="ui-drawer__footer" id="reservation-drawer-footer"></footer>
+</aside>
+
+<dialog class="ui-dialog" id="reservation-assignment-dialog"><div class="ui-dialog__header"><div><h2>Manage Assignment</h2><p id="reservation-assignment-subtitle">Assign charger, connector and parking bay.</p></div><button class="ui-close" id="reservation-assignment-close" type="button">×</button></div><div class="ui-dialog__body"><div class="form-grid"><label class="form-field"><span>Charger</span><select id="reservation-charger"></select></label><label class="form-field"><span>Connector</span><select id="reservation-connector"></select></label><label class="form-field"><span>Parking Bay</span><select id="reservation-bay"></select></label><label class="form-field"><span>Operator override</span><select id="reservation-override"><option value="no">Do not allow conflict</option><option value="yes">Allow assignment conflict</option></select></label><label class="form-field form-field--full"><span>Operator note</span><textarea id="reservation-assignment-note" rows="3" placeholder="Why is this assignment or override required?"></textarea></label></div><div class="ui-callout ui-callout--warning" id="reservation-conflict-warning" hidden><strong>Assignment conflict detected</strong><span>This asset overlaps another reservation. Enable operator override only when operationally justified.</span></div></div><div class="ui-dialog__footer"><button class="button button--secondary" id="reservation-assignment-cancel" type="button">Cancel</button><button class="button button--primary" id="reservation-assignment-confirm" type="button">Save Assignment</button></div></dialog>
+
+<dialog class="ui-dialog" id="reservation-status-dialog"><div class="ui-dialog__header"><div><h2 id="reservation-status-title">Reservation Action</h2><p id="reservation-status-subtitle">Update operational state.</p></div><button class="ui-close" id="reservation-status-close" type="button">×</button></div><div class="ui-dialog__body"><label class="form-field"><span>Operator note</span><textarea id="reservation-status-note" rows="4" placeholder="Operational context"></textarea></label><div class="ui-callout" id="reservation-status-callout"><strong>Reservation state update</strong><span id="reservation-status-callout-text">This action will be recorded in the reservation timeline.</span></div></div><div class="ui-dialog__footer"><button class="button button--secondary" id="reservation-status-cancel" type="button">Cancel</button><button class="button button--primary" id="reservation-status-confirm" type="button">Confirm</button></div></dialog>
+
+<dialog class="ui-dialog" id="reservation-create-dialog"><div class="ui-dialog__header"><div><h2>Operator Reservation</h2><p>Create a network reservation on behalf of a customer or support agent.</p></div><button class="ui-close" id="reservation-create-close" type="button">×</button></div><div class="ui-dialog__body"><div class="form-grid"><label class="form-field"><span>Customer</span><input id="reservation-create-driver" placeholder="Customer name"></label><label class="form-field"><span>Vehicle</span><input id="reservation-create-vehicle" placeholder="Vehicle · plate"></label><label class="form-field"><span>Site</span><select id="reservation-create-site"></select></label><label class="form-field"><span>Arrival</span><input id="reservation-create-arrival" type="time" value="12:00"></label><label class="form-field"><span>Duration</span><select id="reservation-create-duration"><option value="30">30 min</option><option value="45" selected>45 min</option><option value="60">60 min</option><option value="90">90 min</option></select></label><label class="form-field"><span>Assignment mode</span><select id="reservation-create-mode"><option value="auto">Auto assign at arrival</option><option value="specific">Assign now</option><option value="waiting">Waiting list</option></select></label><label class="form-field"><span>Target SOC</span><input id="reservation-create-target" type="number" min="50" max="100" value="80"></label><label class="form-field"><span>Requested energy</span><input id="reservation-create-kwh" type="number" min="1" value="30"></label><label class="form-field form-field--full"><span>Operator note</span><textarea id="reservation-create-note" rows="3" placeholder="Support case, customer request or operational context"></textarea></label></div></div><div class="ui-dialog__footer"><button class="button button--secondary" id="reservation-create-cancel" type="button">Cancel</button><button class="button button--primary" id="reservation-create-confirm" type="button">Create Reservation</button></div></dialog>
+
+<div class="ui-toast" id="global-toast"></div>
+<script type="module" src="js/pages/reservations.js"></script>
+</body></html>
