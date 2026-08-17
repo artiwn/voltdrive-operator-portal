@@ -1,0 +1,513 @@
+/* VoltDrive Operator Portal — Metallic Theme
+   Visual compatibility layer adapted from the approved VoltDrive metallic UI.
+   DOM structure, application layout contracts and JS hooks remain untouched. */
+
+:root{
+  --color-bg:#090a0b;
+  --color-bg-elevated:#111315;
+  --color-card:#171a1c;
+  --color-surface:#23272a;
+  --color-text:#f4f6f8;
+  --color-text-muted:#9aa3a9;
+  --color-text-soft:#737d83;
+  --color-primary:#d9dde0;
+  --color-primary-hover:#eef1f3;
+  --color-success:#45d48b;
+  --color-warning:#f5b942;
+  --color-error:#ff5f57;
+  --color-info:#72a7ff;
+  --color-border:rgba(255,255,255,.095);
+  --color-border-strong:rgba(255,255,255,.17);
+  --shadow-card:0 22px 54px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.055);
+
+  --color-text-primary:var(--color-text);
+  --color-text-secondary:var(--color-text-muted);
+  --color-surface-card:var(--color-card);
+  --color-surface-secondary:#1b1f22;
+  --color-surface-elevated:#202529;
+  --color-surface-raised:#292f33;
+}
+
+html{color-scheme:dark}
+body.app-page{
+  background:
+    radial-gradient(circle at 17% 7%,rgba(112,122,128,.22) 0,rgba(42,47,50,.12) 21%,transparent 40%),
+    radial-gradient(circle at 92% 91%,rgba(76,84,89,.10),transparent 31%),
+    linear-gradient(145deg,#0d0f10 0%,#090a0b 48%,#070809 100%) !important;
+  color:var(--color-text);
+}
+body.app-page::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+}
+
+*{scrollbar-color:#42494e #111315}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#111315}
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,#4a5257,#2b3034);
+  border:2px solid #111315;
+  border-radius:999px;
+}
+
+/* --------------------------------------------------------------------------
+   Application shell / sidebar / topbar
+   -------------------------------------------------------------------------- */
+.sidebar{
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  background:
+    linear-gradient(180deg,rgba(35,39,42,.97) 0%,rgba(18,21,23,.985) 38%,rgba(10,12,13,.995) 100%) !important;
+  border-right-color:rgba(255,255,255,.10) !important;
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.025),20px 0 60px rgba(0,0,0,.18);
+}
+.sidebar__brand{flex:0 0 auto}
+.sidebar__brand strong{color:#f4f6f8}
+.sidebar__brand span{color:#89939a !important}
+.sidebar__nav{flex:0 0 auto !important;min-height:auto !important;overflow:visible !important;padding-bottom:18px}
+.sidebar__group-title{color:#737d83 !important}
+.nav-link{
+  border:1px solid transparent;
+  transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease;
+}
+.nav-link:hover{
+  background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.025)) !important;
+  border-color:rgba(255,255,255,.045);
+  color:#f4f6f8 !important;
+}
+.nav-link.is-active{
+  background:linear-gradient(135deg,rgba(220,225,228,.18),rgba(112,123,130,.07)) !important;
+  border-color:rgba(255,255,255,.075);
+  color:#f5f7f8 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 0 0 1px rgba(255,255,255,.025);
+}
+.nav-link__icon{color:#aab3b8 !important}
+.nav-link.is-active .nav-link__icon{color:#eef2f4 !important}
+.nav-link__badge{
+  background:linear-gradient(145deg,#e6eaec,#929ba1) !important;
+  color:#121517 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 5px 14px rgba(0,0,0,.22);
+}
+.sidebar__footer{
+  position:sticky !important;
+  bottom:-1px !important;
+  z-index:2;
+  flex:0 0 auto !important;
+  margin-top:auto !important;
+  padding-top:18px !important;
+  padding-bottom:18px !important;
+  background:linear-gradient(180deg,rgba(12,14,15,.44),rgba(9,10,11,.98) 28%) !important;
+  border-top-color:rgba(255,255,255,.09) !important;
+  box-shadow:0 -18px 28px rgba(9,10,11,.42);
+}
+.sidebar-user__avatar{
+  background:linear-gradient(145deg,#3d4448,#1d2124 64%,#111315) !important;
+  border:1px solid rgba(255,255,255,.10);
+  color:#eef2f4;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 20px rgba(0,0,0,.18);
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#4a5257,#2b3034);border:0;border-radius:999px}
+
+.topbar{
+  background:rgba(14,16,17,.84) !important;
+  border-bottom-color:rgba(255,255,255,.10) !important;
+  box-shadow:0 12px 32px rgba(0,0,0,.16),inset 0 -1px 0 rgba(255,255,255,.02);
+  backdrop-filter:blur(22px) saturate(115%);
+}
+.topbar__title h1{color:#f5f7f8}
+.topbar__title p{color:#929ca2 !important}
+.live-chip{
+  background:linear-gradient(145deg,rgba(50,213,131,.13),rgba(31,46,39,.45)) !important;
+  border-color:rgba(69,212,139,.24) !important;
+  color:#77dfa8 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045);
+}
+.icon-button,.ui-close,.action-button{
+  background:linear-gradient(145deg,#202427,#131618) !important;
+  border-color:rgba(255,255,255,.115) !important;
+  color:#eef1f3 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055);
+}
+.icon-button:hover,.ui-close:hover,.action-button:hover{
+  background:linear-gradient(145deg,#292e32,#171a1c) !important;
+  border-color:rgba(255,255,255,.18) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Controls / forms
+   -------------------------------------------------------------------------- */
+.button--primary{
+  background:linear-gradient(135deg,#f3f5f6 0%,#c7cdd1 48%,#929ba1 100%) !important;
+  color:#15191b !important;
+  border:1px solid rgba(255,255,255,.38) !important;
+  box-shadow:0 12px 28px rgba(0,0,0,.26),inset 0 1px 0 #fff;
+}
+.button--primary:hover{
+  background:linear-gradient(135deg,#fff 0%,#dce1e4 50%,#a8b0b5 100%) !important;
+}
+.button--primary :is(span,strong,svg,path){color:#15191b !important;fill:currentColor;stroke:currentColor}
+.button--secondary{
+  background:linear-gradient(145deg,#202427,#131618) !important;
+  border-color:rgba(255,255,255,.115) !important;
+  color:#eef1f3 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055);
+}
+.button--secondary:hover{background:linear-gradient(145deg,#292e32,#171a1c) !important;border-color:rgba(255,255,255,.18) !important}
+.button--danger{
+  background:linear-gradient(145deg,rgba(88,33,31,.74),rgba(43,23,23,.82)) !important;
+  border-color:rgba(255,95,87,.28) !important;
+  color:#ff8a84 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.button--danger:hover{background:linear-gradient(145deg,rgba(106,38,35,.78),rgba(50,25,24,.88)) !important;border-color:rgba(255,95,87,.4) !important}
+
+:is(.form-field input,.form-field textarea,.form-field select,.ui-select,.ui-search){
+  background-color:#101315 !important;
+  color:#eef2f4 !important;
+  border-color:rgba(255,255,255,.105) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.ui-search input{background:transparent !important;box-shadow:none !important}
+:is(.form-field input,.form-field textarea,.form-field select,.ui-select):focus{
+  border-color:rgba(207,214,218,.52) !important;
+  box-shadow:0 0 0 4px rgba(199,205,209,.08),inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+:is(input,textarea)::placeholder{color:#727b81 !important}
+:is(select,.ui-select) option{background:#15181a !important;color:#eef2f4 !important}
+input[type="checkbox"],input[type="radio"]{accent-color:#bfc6ca}
+
+/* --------------------------------------------------------------------------
+   Core metallic surfaces
+   -------------------------------------------------------------------------- */
+:is(
+  .panel,.kpi-card,.site-card,.site-ops-card,.site-load-summary,.site-capacity-card,.bay-card,
+  .site-control-card,.charger-mini-row,.incident-card,.charger-attention-entry,.command-mini-row,
+  .charger-overview-banner,.connector-ops-card,.charger-session-card,.charger-activity-row,
+  .session-overview-banner,.session-payment-card,.session-event-mini,.reservation-summary-banner,
+  .reservation-assignment-card,.reservation-side-row,.maintenance-summary-banner,.maintenance-ticket-card,
+  .maintenance-impact-card,.maintenance-recovery-action,.maintenance-recovery-record,.maintenance-technician-row,
+  .energy-summary-banner,.energy-load-card,.energy-asset-row,.energy-control-card,.energy-forecast-row,
+  .energy-alert-row,.energy-allocation-row,.energy-asset-detail,.revenue-card,.revenue-summary-banner,
+  .revenue-site-card,.revenue-side-row,.revenue-tariff-row,.support-case,.support-summary-banner,
+  .support-side-row,.support-fast-card,.support-workload-row,.support-related-card,.support-control-card,
+  .emergency-summary-banner,.emergency-side-row,.emergency-command-row,.emergency-control-card,
+  .emergency-containment-grid article,.emergency-related-list .ui-action-card,.emergency-check-row,
+  .settings-nav,.settings-content,.settings-toggle,.settings-permission-grid article,.settings-danger-zone,
+  .ui-action-card,.ui-detail-grid>div,.ui-callout,.network-summary,.network-summary>div,.quick-action,
+  .attention-item,.energy-row,.facility-chip
+){
+  background:linear-gradient(145deg,rgba(31,35,38,.97) 0%,rgba(18,21,23,.98) 60%,rgba(25,29,31,.97) 100%) !important;
+  border-color:rgba(255,255,255,.105) !important;
+  box-shadow:0 16px 38px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.052);
+}
+
+/* Premium summary / hero surfaces */
+:is(
+  .site-overview-banner,.charger-overview-banner,.session-overview-banner,.reservation-summary-banner,
+  .maintenance-summary-banner,.energy-summary-banner,.revenue-summary-banner,.support-summary-banner,
+  .emergency-summary-banner,.network-summary
+){
+  background:
+    radial-gradient(circle at 82% 8%,rgba(255,255,255,.14),transparent 30%),
+    linear-gradient(145deg,#33393d 0%,#1a1e20 46%,#111315 72%,#252a2d 100%) !important;
+  border-color:rgba(255,255,255,.14) !important;
+  box-shadow:0 22px 48px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.09) !important;
+}
+
+.panel{overflow:hidden}
+.panel__header,.ui-drawer__header,.ui-drawer__footer,.ui-dialog__header,.ui-dialog__footer{
+  border-color:rgba(255,255,255,.095) !important;
+}
+.panel__header{
+  background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,0));
+}
+.panel-chip{
+  background:linear-gradient(145deg,#24292c,#15181a) !important;
+  border-color:rgba(255,255,255,.095) !important;
+  color:#aeb7bc !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Tables */
+.table-wrap{scrollbar-color:#42494e transparent}
+.data-table th{
+  color:#929ca2 !important;
+  background:linear-gradient(180deg,#1b1f21,#15181a) !important;
+  border-bottom-color:rgba(255,255,255,.085) !important;
+}
+.data-table td{border-bottom-color:rgba(255,255,255,.07) !important}
+.data-table tbody tr:hover{background:rgba(255,255,255,.032) !important}
+:is(.session-row--attention,.reservation-row--conflict,.revenue-row--attention,.support-row--risk){
+  background:linear-gradient(145deg,rgba(54,45,27,.36),rgba(24,22,18,.52)) !important;
+}
+:is(.support-row--breached,.emergency-row--critical){
+  background:linear-gradient(145deg,rgba(66,29,28,.48),rgba(28,20,20,.62)) !important;
+}
+
+/* Compact metallic icons */
+:is(
+  .attention-icon,.site-attention-entry__icon,.charger-attention-entry__icon,.command-mini-icon,
+  .reservation-assignment__icon,.reservation-side-icon,.maintenance-tech-avatar,.energy-asset-icon,
+  .energy-control-icon,.revenue-side-icon,.revenue-related-icon,.support-channel-icon,.support-side-icon,
+  .support-fast-icon,.support-related-icon,.support-control-icon,.emergency-side-icon,.emergency-command-icon,
+  .emergency-control-icon,.emergency-check-icon,.settings-nav__icon,.settings-permission-icon
+){
+  background:linear-gradient(145deg,#292e31,#171a1c) !important;
+  border-color:rgba(255,255,255,.09) !important;
+  color:#dfe5e8 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055);
+}
+
+:is(.site-card,.site-ops-card,.bay-card,.charger-mini-row,.charger-attention-entry,.quick-action,
+.attention-item,.ui-action-card,.support-case,.support-side-row,.support-fast-card,.support-control-card,
+.revenue-site-card,.revenue-side-row,.emergency-side-row,.emergency-control-card):hover{
+  border-color:rgba(255,255,255,.18) !important;
+  background:linear-gradient(145deg,#30363a,#1b1f22) !important;
+}
+
+/* Tabs / selected states */
+.ui-tabs,.site-drawer-tabs,.session-filter-tabs,.reservation-filter-tabs,.reservation-drawer-tabs{
+  background:linear-gradient(145deg,#1d2123,#111315) !important;
+  border-color:rgba(255,255,255,.10) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.ui-tab.is-active,.settings-nav__item.is-active{
+  background:linear-gradient(145deg,rgba(221,226,229,.19),rgba(115,126,133,.08)) !important;
+  color:#f4f7f8 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.settings-nav__item:hover{background:linear-gradient(145deg,#292e32,#171a1c) !important}
+.settings-nav__head{border-bottom-color:rgba(255,255,255,.09) !important}
+.settings-nav__icon{color:#dfe5e8 !important}
+.settings-nav__item.is-active .settings-nav__icon{
+  background:linear-gradient(145deg,#3a4044,#202529) !important;
+  color:#f2f5f6 !important;
+}
+
+/* Stable tabbed drawers -------------------------------------------------
+   Shared .ui-drawer was originally built for 3 rows (header / body / footer),
+   while operator detail drawers add a fourth direct child: .ui-tabs.
+   Give every tabbed operator drawer an explicit 4-row contract so switching
+   tabs can only change the scrollable body, never the tab bar or drawer size. */
+:is(
+  #site-drawer,
+  #charger-drawer,
+  #session-drawer,
+  #reservation-drawer,
+  #maintenance-drawer,
+  #energy-drawer,
+  #revenue-drawer
+){
+  grid-template-rows:auto 55px minmax(0,1fr) auto !important;
+  height:100vh;
+  height:100dvh;
+  max-height:100dvh;
+  overflow:hidden;
+}
+:is(
+  #site-drawer,
+  #charger-drawer,
+  #session-drawer,
+  #reservation-drawer,
+  #maintenance-drawer,
+  #energy-drawer,
+  #revenue-drawer
+) > .ui-tabs{
+  box-sizing:border-box;
+  width:100%;
+  height:55px;
+  min-height:55px;
+  max-height:55px;
+  margin:0;
+  align-self:stretch;
+  overflow-x:auto;
+  overflow-y:hidden;
+  flex-wrap:nowrap;
+}
+:is(
+  #site-drawer,
+  #charger-drawer,
+  #session-drawer,
+  #reservation-drawer,
+  #maintenance-drawer,
+  #energy-drawer,
+  #revenue-drawer
+) > .ui-drawer__body{
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+}
+:is(
+  #site-drawer,
+  #charger-drawer,
+  #session-drawer,
+  #reservation-drawer,
+  #maintenance-drawer,
+  #energy-drawer,
+  #revenue-drawer
+) > .ui-drawer__header,
+:is(
+  #site-drawer,
+  #charger-drawer,
+  #session-drawer,
+  #reservation-drawer,
+  #maintenance-drawer,
+  #energy-drawer,
+  #revenue-drawer
+) > .ui-drawer__footer{
+  min-height:0;
+}
+
+/* Drawers / dialogs */
+.ui-drawer{
+  background:linear-gradient(145deg,#252a2d,#121416 64%,#1b1f21) !important;
+  border-left-color:rgba(255,255,255,.12) !important;
+  box-shadow:-28px 0 80px rgba(0,0,0,.48),inset 1px 0 0 rgba(255,255,255,.05) !important;
+}
+.ui-drawer__footer{background:rgba(15,17,18,.94) !important}
+.ui-drawer-backdrop{background:rgba(3,4,5,.66) !important;backdrop-filter:blur(7px)}
+.ui-dialog{
+  background:linear-gradient(145deg,#252a2d,#121416 64%,#1b1f21) !important;
+  border-color:rgba(255,255,255,.14) !important;
+  box-shadow:0 30px 100px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.07) !important;
+}
+.ui-dialog::backdrop{background:rgba(3,4,5,.76) !important;backdrop-filter:blur(8px)}
+.ui-detail-grid>div{background:linear-gradient(145deg,#202427,#131618) !important}
+.ui-toast{
+  background:linear-gradient(145deg,#30363a,#171a1c) !important;
+  border-color:rgba(255,255,255,.13) !important;
+  box-shadow:0 18px 60px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+/* Tracks / meters / charts */
+:is(
+  .health-track,.site-load-track,.parking-pressure-meter,.charger-health-meter,.session-soc-track,
+  .session-charge-progress,.revenue-site-track,.revenue-trend-bar,.support-sla-cell>i,.support-workload-row>i,
+  .emergency-progress,.emergency-recovery-track,.energy-composition-track,.energy-history-bar
+){
+  background:linear-gradient(180deg,#30363a,#1b1f22) !important;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.035);
+}
+.session-chart,.energy-history-chart{
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+    radial-gradient(circle at 50% 42%,#23282b,#121517 62%,#0d0f10) !important;
+}
+
+/* Settings toggles */
+.settings-toggle__control{
+  background:linear-gradient(180deg,#3a4044,#252a2d) !important;
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.settings-toggle__control::after{
+  background:linear-gradient(145deg,#c2c9cd,#818b91) !important;
+  box-shadow:0 2px 5px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.5);
+}
+.settings-toggle input:checked+.settings-toggle__control{
+  background:linear-gradient(145deg,#8f999f,#4a5358) !important;
+  border-color:rgba(220,226,229,.22);
+}
+.settings-toggle input:checked+.settings-toggle__control::after{background:#f4f6f8 !important}
+.settings-policy-lock{
+  background:linear-gradient(145deg,#292e31,#171a1c) !important;
+  color:#b9c1c5 !important;
+  border:1px solid rgba(255,255,255,.07);
+}
+.settings-danger-zone{
+  background:linear-gradient(145deg,rgba(66,29,28,.36),rgba(27,20,20,.62)) !important;
+  border-color:rgba(255,95,87,.22) !important;
+}
+
+/* Semantic states — preserve operational meaning. */
+:is(.status-online,.status-active,.status-available,.status-paid,.status-resolved,.status-completed,.status-confirmed,.status-arrived,.status-isolated-confirmed){
+  background:rgba(69,212,139,.12) !important;
+  color:#65df9d !important;
+}
+:is(.status-busy,.status-reserved,.status-monitoring,.status-preauthorized,.status-acknowledged,.status-recovery,.priority-normal){
+  background:rgba(114,167,255,.12) !important;
+  color:#83b2ff !important;
+}
+:is(.status-warning,.status-open,.status-pending,.status-waiting,.status-not-arrived,.status-not_arrived,.status-contained,.priority-high){
+  background:rgba(245,185,66,.12) !important;
+  color:#f5c35d !important;
+}
+:is(.status-faulted,.status-offline,.status-critical,.status-failed,.status-blocked,.status-disabled,.status-cancelled,.status-interrupted,.status-stopped,.status-no-show,.status-no_show,.priority-critical){
+  background:rgba(255,95,87,.12) !important;
+  color:#ff837c !important;
+}
+:is(.status-maintenance,.status-standard,.status-unassigned,.status-refunded,.priority-low){
+  background:rgba(160,168,173,.11) !important;
+  color:#aeb6bb !important;
+}
+.status-accessible{background:rgba(116,211,170,.1) !important;color:#82dbb2 !important}
+.status-fleet{background:rgba(168,139,250,.12) !important;color:#bca5ff !important}
+.status-partially-refunded{background:rgba(245,185,66,.11) !important;color:#f5c35d !important}
+.status-captured{background:rgba(69,212,139,.12) !important;color:#65df9d !important}
+.status-escalated{background:rgba(255,95,87,.12) !important;color:#ff837c !important}
+
+.ui-callout--warning{background:rgba(245,185,66,.065) !important;border-color:rgba(245,185,66,.22) !important}
+.ui-callout--danger{background:rgba(255,95,87,.075) !important;border-color:rgba(255,95,87,.24) !important}
+.kpi-card--danger,.site-ops-card--critical{
+  background:linear-gradient(145deg,rgba(54,29,29,.74),rgba(24,20,20,.92)) !important;
+  border-color:rgba(255,95,87,.20) !important;
+}
+
+/* Operator-specific visual refinements */
+:is(.dashboard-hero,.sites-hero,.chargers-hero,.sessions-hero,.reservations-hero,.maintenance-hero,
+.energy-hero,.revenue-hero,.support-hero,.emergency-hero,.settings-hero) .eyebrow{
+  color:#b6c0c5 !important;
+}
+:is(.dashboard-hero,.sites-hero,.chargers-hero,.sessions-hero,.reservations-hero,.maintenance-hero,
+.energy-hero,.revenue-hero,.support-hero,.emergency-hero,.settings-hero) h2{
+  color:#f5f7f8;
+  text-shadow:0 1px 0 rgba(255,255,255,.04);
+}
+:is(.dashboard-hero,.sites-hero,.chargers-hero,.sessions-hero,.reservations-hero,.maintenance-hero,
+.energy-hero,.revenue-hero,.support-hero,.emergency-hero,.settings-hero) p{color:#98a2a8 !important}
+
+.quick-action{border:1px solid rgba(255,255,255,.105) !important}
+.quick-action strong{color:#eef2f4}
+.quick-action span{color:#929ca2 !important}
+
+.revenue-money-cell,.revenue-summary-value>strong,.energy-summary-value>strong,.session-overview-value>strong,
+.reservation-summary-value>strong,.maintenance-summary-value>strong{color:#f4f7f8 !important}
+
+/* Emergency stays intentionally red only where action/status is destructive. */
+.emergency-critical-dialog{border-color:rgba(255,95,87,.32) !important}
+.emergency-control-icon--danger,.emergency-side-icon--danger,.revenue-side-icon--critical{
+  background:linear-gradient(145deg,rgba(88,33,31,.74),rgba(43,23,23,.82)) !important;
+  color:#ff8a84 !important;
+  border-color:rgba(255,95,87,.18) !important;
+}
+.emergency-control-icon--success,.emergency-side-icon--success{
+  background:linear-gradient(145deg,rgba(34,72,54,.66),rgba(24,39,31,.82)) !important;
+  color:#73dda7 !important;
+  border-color:rgba(69,212,139,.18) !important;
+}
+.emergency-side-icon--warning,.revenue-side-icon--warning{
+  background:linear-gradient(145deg,rgba(74,59,29,.66),rgba(38,32,23,.82)) !important;
+  color:#f3c45f !important;
+  border-color:rgba(245,185,66,.17) !important;
+}
+
+/* Keep the existing sidebar scroll contract used by common.js. */
+@media(min-width:821px){
+  .sidebar{height:100vh !important;max-height:100vh !important}
+}
+@media(max-width:820px){
+  .sidebar{
+    background:linear-gradient(180deg,#24292c 0%,#111315 48%,#090a0b 100%) !important;
+    box-shadow:24px 0 70px rgba(0,0,0,.55),inset -1px 0 0 rgba(255,255,255,.05) !important;
+  }
+  .mobile-overlay{background:rgba(3,4,5,.7) !important;backdrop-filter:blur(5px)}
+}
